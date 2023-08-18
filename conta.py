@@ -13,11 +13,18 @@ class Conta:
         self.__saldo += valor
     
     def saca(self, valor):
-        self.__saldo -= valor
+        if(self.__pode_sacar(valor)):
+            self.__saldo -= valor
+        else:
+            print(f'Valor de {valor} é maior do que o saldo e o limite')
 
     def transfere(self, valor, destino):
         self.saca(valor)
         destino.deposita(valor)
+
+    def __pode_sacar(self, valor):
+        total_possivel_retirada = self.__saldo + self.limite
+        return valor <= total_possivel_retirada
 
     @property
     def titular(self):
@@ -30,6 +37,10 @@ class Conta:
     @property
     def limite(self):
         return self.__limite
+
+    @staticmethod
+    def codigo_banco():
+        return "001"
     
     @limite.setter
     def limite(self, limite):
